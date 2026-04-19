@@ -172,8 +172,8 @@
   .hero-title {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(60px, 11vw, 180px);
-    line-height: 0.92;
+    font-size: clamp(48px, 7.5vw, 104px);
+    line-height: 0.94;
     letter-spacing: -0.03em;
     color: var(--text);
   }
@@ -231,6 +231,149 @@
   }
   @media (max-width: 720px) {
     .hero-bottom { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* Hero two-column layout with photo */
+  .hero-layout {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 360px);
+    gap: 60px;
+    align-items: center;
+    margin-top: 40px;
+  }
+  .hero-photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    transform: scale(1.04);
+    animation: heroPhotoReveal 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s forwards;
+  }
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+    filter: saturate(0.92) contrast(1.02);
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(10, 11, 13, 0.15) 0%,
+      transparent 35%,
+      transparent 70%,
+      rgba(10, 11, 13, 0.65) 100%);
+    pointer-events: none;
+  }
+  @keyframes heroPhotoReveal {
+    to { opacity: 1; transform: scale(1); }
+  }
+  @media (max-width: 900px) {
+    .hero-layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .hero-photo {
+      order: -1;
+      width: 140px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      margin: 0;
+    }
+    .hero-photo::after {
+      background: linear-gradient(to bottom, transparent 60%, rgba(10, 11, 13, 0.3) 100%);
+    }
+  }
+
+  /* =========== ABOUT =========== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+  .about-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .about-meta-item {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0.01em;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .about-meta-item:last-child { border-bottom: none; }
+  .about-meta-item span {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-mute);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .about-prose {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.3vw, 28px);
+    line-height: 1.45;
+    color: var(--text-dim);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+  .about-prose em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .about-prose strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+  .about-prose p {
+    margin-bottom: 24px;
+  }
+  .about-prose p:last-child {
+    margin-bottom: 0;
+  }
+  .about-prose .about-closer {
+    font-size: 0.78em;
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+    font-style: normal;
+    line-height: 1.6;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  @media (max-width: 760px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* Staggered reveal for experience items — each slides up as it enters viewport */
+  .exp-item.reveal {
+    transform: translateY(60px);
+    transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+                transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .exp-list .exp-item.reveal:nth-child(1) { transition-delay: 0s; }
+  .exp-list .exp-item.reveal:nth-child(2) { transition-delay: 0.1s; }
+  .exp-list .exp-item.reveal:nth-child(3) { transition-delay: 0.2s; }
+  .exp-list .exp-item.reveal:nth-child(4) { transition-delay: 0.3s; }
+  .exp-item.reveal.in {
+    transform: translateY(0);
   }
   .hero-lede {
     font-size: 20px;
@@ -506,38 +649,108 @@
   }
 
   /* =========== SKILLS =========== */
-  .skills {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .skill-group {
-    background: var(--bg);
-    padding: 32px;
-  }
-  .skill-group h4 {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 18px;
-    font-weight: 500;
-  }
-  .skill-group ul {
-    list-style: none;
+  .skills-stack {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 72px;
+    align-items: center;
   }
-  .skill-group li {
-    font-size: 14px;
-    color: var(--text-dim);
+  .skill-category {
+    width: 100%;
+    text-align: center;
+  }
+  .skill-category-title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(22px, 2.5vw, 32px);
+    color: var(--accent-2);
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+  .skill-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .skill-tile {
+    position: relative;
+    width: 86px;
+    height: 86px;
+    border: 1px solid var(--border-2);
+    border-radius: 14px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                background 0.3s ease;
+    cursor: default;
+  }
+  .skill-tile img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+  }
+  .skill-tile:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px -10px rgba(91, 141, 239, 0.4),
+                0 0 0 1px var(--accent) inset;
+    background: rgba(91, 141, 239, 0.05);
+    z-index: 10;
+  }
+  .skill-tile:hover img {
+    transform: scale(1.08);
+  }
+  .skill-tile::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
   }
-  .skill-group li strong { color: var(--text); font-weight: 500; }
+  .skill-tile:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(2px);
+  }
+  .skill-tile.learning::before {
+    content: 'Learning';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ok);
+    background: rgba(74, 222, 128, 0.12);
+    border: 1px solid rgba(74, 222, 128, 0.25);
+    padding: 2px 5px;
+    border-radius: 3px;
+    line-height: 1;
+  }
+  @media (max-width: 520px) {
+    .skill-tile { width: 70px; height: 70px; border-radius: 12px; }
+    .skill-tile img { width: 36px; height: 36px; }
+    .skills-stack { gap: 56px; }
+  }
 
   /* =========== NOW =========== */
   .now {
@@ -687,14 +900,11 @@
 <nav id="nav">
   <a href="#top" class="nav-logo">Ashkan<span>.</span></a>
   <div class="nav-links">
-    <a href="#work">Work</a>
-    <a href="#experience">Experience</a>
+    <a href="#about">About</a>
     <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#work">Work</a>
     <a href="#contact">Contact</a>
-  </div>
-  <div class="status">
-    <span class="status-dot"></span>
-    Available for hire
   </div>
 </nav>
 
@@ -713,18 +923,23 @@
     </div>
   </div>
 
-  <h1 class="hero-title">
-    <span class="line"><span>Building</span></span>
-    <span class="line line-rotate">
-      <span class="rotator">
-        <span class="rotator-item">low-latency systems.</span>
-        <span class="rotator-item">fraud detection APIs.</span>
-        <span class="rotator-item">production ML pipelines.</span>
-        <span class="rotator-item">systems that scale.</span>
-        <span class="rotator-item">low-latency systems.</span>
+  <div class="hero-layout">
+    <h1 class="hero-title">
+      <span class="line"><span>Building</span></span>
+      <span class="line line-rotate">
+        <span class="rotator">
+          <span class="rotator-item">low-latency systems.</span>
+          <span class="rotator-item">fraud detection APIs.</span>
+          <span class="rotator-item">production ML pipelines.</span>
+          <span class="rotator-item">systems that scale.</span>
+          <span class="rotator-item">low-latency systems.</span>
+        </span>
       </span>
-    </span>
-  </h1>
+    </h1>
+    <figure class="hero-photo">
+      <img src="./ashkan.jpg" alt="Ashkan Sheikhansari — Backend Engineer" />
+    </figure>
+  </div>
 
   <div class="hero-bottom">
     <p class="hero-lede">
@@ -767,6 +982,240 @@
     <span class="marquee-item">Docker</span>
   </div>
 </div>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="section-label reveal">About</div>
+  <h2 class="section-title reveal">
+    Backend engineer. <em>Real-time</em> obsessions.
+  </h2>
+
+  <div class="about-grid reveal">
+    <div class="about-meta">
+      <div class="about-meta-item">
+        <span>Based in</span>
+        London, UK
+      </div>
+      <div class="about-meta-item">
+        <span>Origin</span>
+        Tehran, Iran
+      </div>
+      <div class="about-meta-item">
+        <span>Experience</span>
+        5 years production
+      </div>
+      <div class="about-meta-item">
+        <span>Visa</span>
+        Graduate &mdash; valid Jan 2027
+      </div>
+      <div class="about-meta-item">
+        <span>Status</span>
+        Open to offers
+      </div>
+    </div>
+
+    <div class="about-prose">
+      <p>
+        Five years shipping production systems &mdash; three at <strong>Tejarat Bank</strong>
+        running fraud detection across 5 million customers, then London for real-time APIs
+        and MLOps. Currently evaluating AI coding agents at <em>Anthropic</em> via Alignerr.
+      </p>
+      <p>
+        I'm drawn to problems where <em>latency</em>, scale, and correctness all matter at
+        once &mdash; fraud detection, distributed state, inference pipelines. Anywhere
+        "works on my laptop" isn't enough.
+      </p>
+      <p class="about-closer">
+        Learning Rust and Go in the mornings. Available for full-time backend and ML
+        engineering roles in London. No sponsorship needed until Jan 2027.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="section-label reveal">Technical Stack</div>
+  <h2 class="section-title reveal">
+    The tools I reach for <em>first</em>.
+  </h2>
+
+  <div class="skills-stack">
+
+    <div class="skill-category reveal">
+      <h4 class="skill-category-title">Languages &amp; Tools</h4>
+      <div class="skill-tiles">
+        <div class="skill-tile" data-name="Python" title="Python">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Bash" title="Bash">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg" alt="Bash" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Git" title="Git">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="GitLab" title="GitLab">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg" alt="GitLab" loading="lazy" />
+        </div>
+        <div class="skill-tile learning" data-name="Rust" title="Rust — learning">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg" alt="Rust" loading="lazy" />
+        </div>
+        <div class="skill-tile learning" data-name="Go" title="Go — learning">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" alt="Go" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-category reveal">
+      <h4 class="skill-category-title">Libraries &amp; Frameworks</h4>
+      <div class="skill-tiles">
+        <div class="skill-tile" data-name="FastAPI" title="FastAPI">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Django" title="Django">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" alt="Django" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="TensorFlow" title="TensorFlow">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="TensorFlow" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="scikit-learn" title="scikit-learn">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" alt="scikit-learn" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Pandas" title="Pandas">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="NumPy" title="NumPy">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="OpenAI" title="OpenAI">
+          <img src="https://api.iconify.design/simple-icons/openai.svg?color=white" alt="OpenAI" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="MLflow" title="MLflow">
+          <img src="https://cdn.simpleicons.org/mlflow/0194E2" alt="MLflow" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-category reveal">
+      <h4 class="skill-category-title">Infrastructure &amp; Data</h4>
+      <div class="skill-tiles">
+        <div class="skill-tile" data-name="PostgreSQL" title="PostgreSQL">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Redis" title="Redis">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="Redis" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="SQLite" title="SQLite">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" alt="SQLite" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Oracle" title="Oracle">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg" alt="Oracle" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Qdrant" title="Qdrant">
+          <img src="https://cdn.simpleicons.org/qdrant/DC244C" alt="Qdrant" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Docker" title="Docker">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Kubernetes" title="Kubernetes">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="AWS" title="Amazon Web Services">
+          <img src="https://api.iconify.design/logos/aws.svg" alt="AWS" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="RabbitMQ" title="RabbitMQ">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rabbitmq/rabbitmq-original.svg" alt="RabbitMQ" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Prometheus" title="Prometheus">
+          <img src="https://cdn.simpleicons.org/prometheus/E6522C" alt="Prometheus" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Grafana" title="Grafana">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg" alt="Grafana" loading="lazy" />
+        </div>
+        <div class="skill-tile" data-name="Elasticsearch" title="Elasticsearch">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/elasticsearch/elasticsearch-original.svg" alt="Elasticsearch" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience">
+  <div class="section-label reveal">Experience</div>
+  <h2 class="section-title reveal">
+    Five years across banks, startups, and <em>AI labs</em>.
+  </h2>
+
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Mar 2026 — Present</div>
+      <div>
+        <h3 class="exp-role">AI Systems Evaluation Engineer</h3>
+        <div class="exp-company">Alignerr<span class="sep">/</span>in partnership with Anthropic<span class="sep">/</span>Remote</div>
+        <p class="exp-desc">
+          Design real-world software engineering tasks to evaluate AI coding agents
+          (Claude Code) — backend features, refactors, debugging, test coverage across
+          Python codebases. Score models across 14 engineering-behavior dimensions and
+          construct adversarial scenarios to surface failure modes like overconfidence
+          and silent scope reduction. Qualitative feedback feeds directly into model
+          training.
+        </p>
+      </div>
+      <div class="exp-tag current">● Current</div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Sep 2024 — Feb 2026</div>
+      <div>
+        <h3 class="exp-role">Backend Software Engineer</h3>
+        <div class="exp-company">InnoTech Consulting Group<span class="sep">/</span>London</div>
+        <p class="exp-desc">
+          Owned the production fraud detection API end to end — FastAPI, Redis, Celery,
+          RabbitMQ, XGBoost, Kubernetes, MLflow. Shipped a loan default model to AWS
+          Lambda with drift-triggered retraining. Built an AI-powered job matching
+          platform with GPT-4o-mini and sentence-transformers. Plus a Django consulting
+          platform that lifted Lighthouse performance by 45%.
+        </p>
+      </div>
+      <div class="exp-tag">Full-time</div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">May 2025 — Jul 2025</div>
+      <div>
+        <h3 class="exp-role">Backend Engineer</h3>
+        <div class="exp-company">KodjoEnglish<span class="sep">/</span>EdTech<span class="sep">/</span>Remote · NY</div>
+        <p class="exp-desc">
+          Contracted to fix database performance issues on a 1,600-student platform.
+          Composite PostgreSQL indexing cut query time from 8s to under 200ms. Shipped
+          FastAPI microservices with JWT/RBAC on Kubernetes with auto-scaling, Qdrant
+          semantic search, GitLab CI/CD, Prometheus + Grafana observability.
+        </p>
+      </div>
+      <div class="exp-tag">Contract</div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-date">Jan 2021 — Aug 2023</div>
+      <div>
+        <h3 class="exp-role">Software Engineer</h3>
+        <div class="exp-company">Tejarat Bank<span class="sep">/</span>5M+ customers<span class="sep">/</span>Tehran</div>
+        <p class="exp-desc">
+          Built automated fraud detection in Python and Oracle SQL, processing 10,000+
+          daily transactions. Rule-based anomaly detection and statistical scoring cut
+          manual investigation time by 30%. Tuned Oracle queries and rewrote stored
+          procedures for 40% faster compliance reporting. Integrated Qdrant for fraud
+          pattern similarity, reducing false positives by 25%.
+        </p>
+      </div>
+      <div class="exp-tag">Full-time</div>
+    </div>
+
+  </div>
+</section>
 
 <!-- ============ WORK ============ -->
 <section id="work">
@@ -866,172 +1315,6 @@
 
   </div>
 </section>
-
-<!-- ============ EXPERIENCE ============ -->
-<section id="experience">
-  <div class="section-label reveal">Experience</div>
-  <h2 class="section-title reveal">
-    Five years across banks, startups, and <em>AI labs</em>.
-  </h2>
-
-  <div class="exp-list">
-
-    <div class="exp-item reveal">
-      <div class="exp-date">Mar 2026 — Present</div>
-      <div>
-        <h3 class="exp-role">AI Systems Evaluation Engineer</h3>
-        <div class="exp-company">Alignerr<span class="sep">/</span>in partnership with Anthropic<span class="sep">/</span>Remote</div>
-        <p class="exp-desc">
-          Design real-world software engineering tasks to evaluate AI coding agents
-          (Claude Code) — backend features, refactors, debugging, test coverage across
-          Python codebases. Score models across 14 engineering-behavior dimensions and
-          construct adversarial scenarios to surface failure modes like overconfidence
-          and silent scope reduction. Qualitative feedback feeds directly into model
-          training.
-        </p>
-      </div>
-      <div class="exp-tag current">● Current</div>
-    </div>
-
-    <div class="exp-item reveal">
-      <div class="exp-date">Sep 2024 — Feb 2026</div>
-      <div>
-        <h3 class="exp-role">Backend Software Engineer</h3>
-        <div class="exp-company">InnoTech Consulting Group<span class="sep">/</span>London</div>
-        <p class="exp-desc">
-          Owned the production fraud detection API end to end — FastAPI, Redis, Celery,
-          RabbitMQ, XGBoost, Kubernetes, MLflow. Shipped a loan default model to AWS
-          Lambda with drift-triggered retraining. Built an AI-powered job matching
-          platform with GPT-4o-mini and sentence-transformers. Plus a Django consulting
-          platform that lifted Lighthouse performance by 45%.
-        </p>
-      </div>
-      <div class="exp-tag">Full-time</div>
-    </div>
-
-    <div class="exp-item reveal">
-      <div class="exp-date">May 2025 — Jul 2025</div>
-      <div>
-        <h3 class="exp-role">Backend Engineer</h3>
-        <div class="exp-company">KodjoEnglish<span class="sep">/</span>EdTech<span class="sep">/</span>Remote · NY</div>
-        <p class="exp-desc">
-          Contracted to fix database performance issues on a 1,600-student platform.
-          Composite PostgreSQL indexing cut query time from 8s to under 200ms. Shipped
-          FastAPI microservices with JWT/RBAC on Kubernetes with auto-scaling, Qdrant
-          semantic search, GitLab CI/CD, Prometheus + Grafana observability.
-        </p>
-      </div>
-      <div class="exp-tag">Contract</div>
-    </div>
-
-    <div class="exp-item reveal">
-      <div class="exp-date">Jan 2021 — Aug 2023</div>
-      <div>
-        <h3 class="exp-role">Software Engineer</h3>
-        <div class="exp-company">Tejarat Bank<span class="sep">/</span>5M+ customers<span class="sep">/</span>Tehran</div>
-        <p class="exp-desc">
-          Built automated fraud detection in Python and Oracle SQL, processing 10,000+
-          daily transactions. Rule-based anomaly detection and statistical scoring cut
-          manual investigation time by 30%. Tuned Oracle queries and rewrote stored
-          procedures for 40% faster compliance reporting. Integrated Qdrant for fraud
-          pattern similarity, reducing false positives by 25%.
-        </p>
-      </div>
-      <div class="exp-tag">Full-time</div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ============ SKILLS ============ -->
-<section id="skills">
-  <div class="section-label reveal">Technical Stack</div>
-  <h2 class="section-title reveal">
-    The tools I reach for <em>first</em>.
-  </h2>
-
-  <div class="skills reveal">
-
-    <div class="skill-group">
-      <h4>Languages</h4>
-      <ul>
-        <li><strong>Python</strong> — primary</li>
-        <li><strong>SQL</strong> — Postgres, Oracle</li>
-        <li><strong>Bash</strong> — ops tooling</li>
-        <li>Rust / Go — learning</li>
-      </ul>
-    </div>
-
-    <div class="skill-group">
-      <h4>Backend</h4>
-      <ul>
-        <li><strong>FastAPI</strong> · Django</li>
-        <li><strong>asyncio</strong> · WebSockets</li>
-        <li>SQLAlchemy · REST APIs</li>
-        <li>JWT · OAuth2 · RBAC</li>
-      </ul>
-    </div>
-
-    <div class="skill-group">
-      <h4>Data &amp; Storage</h4>
-      <ul>
-        <li><strong>PostgreSQL</strong> · Oracle · SQLite</li>
-        <li><strong>Redis</strong> — caching, queues</li>
-        <li><strong>Qdrant</strong> — vector search</li>
-        <li>RabbitMQ · Celery</li>
-      </ul>
-    </div>
-
-    <div class="skill-group">
-      <h4>ML / MLOps</h4>
-      <ul>
-        <li><strong>XGBoost</strong> · LightGBM</li>
-        <li><strong>Scikit-learn</strong> · Isolation Forest</li>
-        <li><strong>MLflow</strong> — tracking, registry</li>
-        <li>TensorFlow · GRU · CNN</li>
-      </ul>
-    </div>
-
-    <div class="skill-group">
-      <h4>Cloud &amp; DevOps</h4>
-      <ul>
-        <li><strong>Docker</strong> · Kubernetes</li>
-        <li><strong>AWS</strong> — Lambda, EC2, S3</li>
-        <li>GitLab CI/CD · Git</li>
-        <li>Linux</li>
-      </ul>
-    </div>
-
-    <div class="skill-group">
-      <h4>Observability &amp; AI</h4>
-      <ul>
-        <li><strong>Prometheus</strong> · Grafana</li>
-        <li>Elasticsearch</li>
-        <li>OpenAI API · sentence-transformers</li>
-        <li>Prompt engineering · Eval</li>
-      </ul>
-    </div>
-
-  </div>
-</section>
-
-<!-- ============ NOW ============ -->
-<div class="now">
-  <div class="now-grid">
-    <div class="now-label reveal">Currently<br/>— 2026</div>
-    <div class="now-text reveal">
-      <p>
-        Evaluating AI coding agents for <em>Anthropic</em> via Alignerr,
-        interviewing for backend and ML engineering roles across London,
-        and sharpening up on <em>Rust</em> in the mornings.
-      </p>
-      <p>
-        Looking for a role where low-latency matters, where the problem is
-        genuinely hard, and where I can own systems end to end.
-      </p>
-    </div>
-  </div>
-</div>
 
 <!-- ============ CONTACT ============ -->
 <section class="contact" id="contact">
