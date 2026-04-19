@@ -926,6 +926,147 @@
     z-index: 2;
   }
 
+  /* =========== EDUCATION =========== */
+  .edu-list {
+    position: relative;
+    padding: 20px 0 40px;
+  }
+  /* Vertical timeline line that draws down on reveal */
+  .edu-timeline {
+    position: absolute;
+    left: 44px;  /* center of 88px logo */
+    top: 60px;
+    bottom: 80px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--border) 10%, var(--border) 90%, transparent);
+    transform-origin: top center;
+    transform: scaleY(0);
+    transition: transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 1;
+  }
+  .edu-timeline.in { transform: scaleY(1); }
+
+  .edu-item {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 40px;
+    align-items: flex-start;
+    padding: 36px 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Monogram badge — typographic logo */
+  .edu-logo {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .edu-logo::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(91, 141, 239, 0.15), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+  }
+  .edu-item:hover .edu-logo {
+    border-color: var(--accent);
+  }
+  .edu-item:hover .edu-logo::before { opacity: 1; }
+  .edu-logo-text {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    transition: color 0.3s ease;
+  }
+  .edu-item:hover .edu-logo-text { color: var(--accent-2); }
+
+  .edu-content .edu-year {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    margin-bottom: 10px;
+  }
+  .edu-content h3 {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .edu-school {
+    font-size: 15px;
+    color: var(--accent-2);
+    font-weight: 500;
+    margin-bottom: 14px;
+    letter-spacing: -0.005em;
+  }
+  .edu-note {
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    max-width: 680px;
+  }
+  .edu-note em {
+    font-style: italic;
+    color: var(--text);
+  }
+
+  /* "Stamp" reveal animation for the logo — scales in with a subtle overshoot and rotation */
+  .edu-logo.stamp-reveal {
+    opacity: 0;
+    transform: scale(0.5) rotate(-12deg);
+    transition: opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .edu-logo.stamp-reveal.in {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+  /* Content slides in from the right */
+  .edu-content.slide-in-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s,
+                transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s;
+  }
+  .edu-content.slide-in-right.in {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  /* Second item staggers its animation */
+  .edu-item:nth-child(3) .edu-logo.stamp-reveal {
+    transition-delay: 0.15s;
+  }
+  .edu-item:nth-child(3) .edu-content.slide-in-right {
+    transition-delay: 0.25s;
+  }
+
+  @media (max-width: 720px) {
+    .edu-timeline { left: 32px; top: 40px; }
+    .edu-item { grid-template-columns: 64px 1fr; gap: 20px; padding: 24px 0; }
+    .edu-logo { width: 64px; height: 64px; }
+    .edu-logo-text { font-size: 16px; }
+  }
+
   /* =========== REVEAL =========== */
   .reveal {
     opacity: 0;
@@ -944,7 +1085,10 @@
       transition-duration: 0.01ms !important;
     }
     .hero-title .line > span { transform: none; }
-    .reveal { opacity: 1; transform: none; }
+    .reveal,
+    .stamp-reveal,
+    .slide-in-right,
+    .edu-timeline { opacity: 1; transform: none; }
   }
 </style>
 </head>
@@ -957,6 +1101,7 @@
     <a href="#skills">Skills</a>
     <a href="#experience">Experience</a>
     <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
@@ -1384,6 +1529,51 @@
   </div>
 </section>
 
+<!-- ============ EDUCATION ============ -->
+<section id="education">
+  <div class="section-label reveal">Education</div>
+  <h2 class="section-title reveal">
+    Academic <em>foundations</em>.
+  </h2>
+
+  <div class="edu-list">
+    <div class="edu-timeline reveal"></div>
+
+    <article class="edu-item">
+      <div class="edu-logo stamp-reveal" aria-label="Brunel University London">
+        <span class="edu-logo-text">BUL</span>
+      </div>
+      <div class="edu-content slide-in-right">
+        <div class="edu-year">Sep 2023 — Sep 2024</div>
+        <h3>MSc Artificial Intelligence</h3>
+        <div class="edu-school">Brunel University London</div>
+        <p class="edu-note">
+          <em>Dissertation Grade A.</em> Hybrid GRU-CNN architecture for stock market
+          forecasting trained on 1.5M financial records &mdash; MAE of 0.145,
+          outperforming the LSTM baseline by 18%. Modules spanned machine learning,
+          deep learning, NLP, computer vision, and reinforcement learning.
+        </p>
+      </div>
+    </article>
+
+    <article class="edu-item">
+      <div class="edu-logo stamp-reveal" aria-label="Mazandaran University of Science and Technology">
+        <span class="edu-logo-text">MUST</span>
+      </div>
+      <div class="edu-content slide-in-right">
+        <div class="edu-year">2018 — 2022</div>
+        <h3>BSc Software Engineering</h3>
+        <div class="edu-school">Mazandaran University of Science &amp; Technology</div>
+        <p class="edu-note">
+          Core foundations in Python, data structures &amp; algorithms, statistics,
+          database systems, and AI fundamentals &mdash; the groundwork that the MSc
+          built on.
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+
 <!-- ============ CONTACT ============ -->
 <section class="contact" id="contact">
   <div class="contact-eyebrow reveal">Let's talk</div>
@@ -1426,7 +1616,7 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.reveal, .stamp-reveal, .slide-in-right').forEach(el => io.observe(el));
 
   // Typewriter effect for the role
   (function() {
