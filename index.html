@@ -591,34 +591,37 @@
   }
   .work-links a:hover .dash { width: 22px; }
 
-  /* Video embeds for project demos */
+  /* Video embeds for project demos — both videos share the same height.
+     Widths are determined by native aspect ratio. Users can go fullscreen for detail. */
   .work-item--has-video .work-body {
     display: grid;
-    grid-template-columns: 1fr minmax(280px, 420px);
+    grid-template-columns: 1fr auto;
     gap: 40px;
     align-items: start;
-  }
-  .work-item--video-portrait .work-body {
-    grid-template-columns: 1fr minmax(200px, 240px);
   }
   .work-video {
     position: relative;
     border-radius: 6px;
     overflow: hidden;
-    background: var(--surface);
+    background: #000;
     border: 1px solid var(--border);
     box-shadow: 0 4px 24px rgba(0,0,0,0.3);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
+    line-height: 0;
   }
   .work-item:hover .work-video {
     box-shadow: 0 8px 32px rgba(91, 141, 239, 0.12);
     transform: translateY(-2px);
   }
   .work-video video {
-    width: 100%;
-    height: auto;
+    height: 280px;
+    width: auto;
+    max-width: 100%;
     display: block;
-    background: #000;
+  }
+
+  @media (max-width: 900px) {
+    .work-video video { height: 240px; }
   }
 
   @media (max-width: 720px) {
@@ -626,14 +629,12 @@
     .work-item:hover { padding-left: 0; }
     .work-num { padding-top: 0; }
     .work-links { padding-top: 0; flex-direction: row; gap: 20px; }
-    .work-item--has-video .work-body,
-    .work-item--video-portrait .work-body {
+    .work-item--has-video .work-body {
       grid-template-columns: 1fr;
       gap: 24px;
+      justify-items: start;
     }
-    .work-item--video-portrait .work-video {
-      max-width: 240px;
-    }
+    .work-video video { height: 280px; }
   }
 
   /* =========== EXPERIENCE =========== */
