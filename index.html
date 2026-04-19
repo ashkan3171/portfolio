@@ -1353,17 +1353,20 @@
       <div class="work-num">04 /</div>
       <div class="work-body">
         <div class="work-content">
-          <h3>Async Telegram Bot</h3>
+          <h3>Async Telegram Music Bot</h3>
           <p class="work-desc">
-            Production async bot serving 1,000+ users with intelligent SQLite caching that
-            cut API calls by 60%. Clean async Python, connection pooling, graceful
-            rate-limit handling.
+            An async Python bot that delivers music on demand to 1,000+ Telegram users.
+            A user sends a track query, the bot fetches the audio from the upstream source
+            and returns the file. The engineering centre is an SQLite-backed cache layer:
+            repeated queries skip the external API entirely, cutting calls by 60%.
+            Concurrent request handling through asyncio with connection pooling and
+            graceful rate-limit handling. FastAPI management layer, fully Dockerized.
           </p>
           <div class="work-metrics">
             <span class="metric"><strong>1,000+</strong> users</span>
             <span class="metric"><strong>60%</strong> fewer API calls</span>
           </div>
-          <div class="work-stack">Python · asyncio · SQLite · Docker</div>
+          <div class="work-stack">Python · asyncio · FastAPI · SQLite · Docker</div>
         </div>
         <div class="work-video">
           <video
