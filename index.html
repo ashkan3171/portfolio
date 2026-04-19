@@ -354,6 +354,78 @@
     }
   }
 
+  /* =========== ABOUT =========== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .about-meta-item {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0.01em;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .about-meta-item:last-child {
+    border-bottom: none;
+  }
+  .about-meta-item span {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-mute);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .about-prose {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.3vw, 28px);
+    line-height: 1.45;
+    color: var(--text-dim);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+  .about-prose em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .about-prose strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+  .about-prose p {
+    margin-bottom: 24px;
+  }
+  .about-prose p:last-child {
+    margin-bottom: 0;
+  }
+  .about-prose .about-closer {
+    font-size: 0.78em;
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+    font-style: normal;
+    line-height: 1.6;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  @media (max-width: 760px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
   /* =========== MARQUEE =========== */
   .marquee {
     overflow: hidden;
@@ -853,7 +925,7 @@
     <div class="hero-text">
       <div class="hero-hi">
         <span class="hero-hi-dash"></span>
-        Hi
+        Hi, from London
       </div>
       <h1 class="hero-name">I'm Ashkan</h1>
       <div class="hero-role">
