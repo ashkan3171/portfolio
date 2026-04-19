@@ -591,13 +591,33 @@
   }
   .work-links a:hover .dash { width: 22px; }
 
-  /* Video embeds for project demos — both videos share the same height.
-     Widths are determined by native aspect ratio. Users can go fullscreen for detail. */
-  .work-item--has-video .work-body {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 40px;
-    align-items: start;
+  /* Video embeds for project demos — video LEFT, content RIGHT.
+     Both videos share the same height. Users can go fullscreen for detail. */
+  .work-item--has-video {
+    grid-template-columns: auto 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .work-item--has-video:hover { padding-left: 0; }
+  .work-item--has-video .work-num,
+  .work-item--has-video .work-links--outer {
+    display: none;
+  }
+  .work-content-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .work-num-inline {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-mute);
+    letter-spacing: 0.06em;
+  }
+  .work-content-block .work-links {
+    flex-direction: row;
+    gap: 24px;
+    padding-top: 8px;
   }
   .work-video {
     position: relative;
@@ -611,7 +631,6 @@
   }
   .work-item:hover .work-video {
     box-shadow: 0 8px 32px rgba(91, 141, 239, 0.12);
-    transform: translateY(-2px);
   }
   .work-video video {
     height: 280px;
@@ -621,6 +640,7 @@
   }
 
   @media (max-width: 900px) {
+    .work-item--has-video { gap: 32px; }
     .work-video video { height: 240px; }
   }
 
@@ -629,12 +649,21 @@
     .work-item:hover { padding-left: 0; }
     .work-num { padding-top: 0; }
     .work-links { padding-top: 0; flex-direction: row; gap: 20px; }
-    .work-item--has-video .work-body {
+    .work-item--has-video {
       grid-template-columns: 1fr;
       gap: 24px;
       justify-items: start;
     }
     .work-video video { height: 280px; }
+    /* On mobile, converging reveals collapse to a subtle upward slide */
+    .reveal.reveal--from-left,
+    .reveal.reveal--from-right {
+      transform: translateY(30px);
+    }
+    .reveal.reveal--from-left.in,
+    .reveal.reveal--from-right.in {
+      transform: translateY(0);
+    }
   }
 
   /* =========== EXPERIENCE =========== */
@@ -931,6 +960,19 @@
   .reveal.in {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* Converging reveal variants — used for side-by-side project content.
+     Elements start offset from their final position and slide in when they enter the viewport. */
+  .reveal.reveal--from-left {
+    transform: translateX(-80px);
+  }
+  .reveal.reveal--from-right {
+    transform: translateX(80px);
+  }
+  .reveal.reveal--from-left.in,
+  .reveal.reveal--from-right.in {
+    transform: translateX(0);
   }
 
   /* Prevent flash of unstyled content */
@@ -1294,37 +1336,35 @@
       </div>
     </article>
 
-    <article class="work-item work-item--has-video reveal">
-      <div class="work-num">02 /</div>
-      <div class="work-body">
-        <div class="work-content">
-          <h3>AI Job Matcher</h3>
-          <p class="work-desc">
-            CV-to-JD semantic matching platform using GPT-4o-mini for skill extraction and
-            sentence-transformers for similarity scoring. Fuzzy matching with 80+ skill
-            synonym mappings. Deployed full-stack on Railway and Vercel with a live demo.
-          </p>
-          <div class="work-metrics">
-            <span class="metric"><strong>83%</strong> match accuracy</span>
-            <span class="metric"><strong>80+</strong> skill synonyms</span>
-            <span class="metric">Live demo</span>
-          </div>
-          <div class="work-stack">FastAPI · OpenAI · sentence-transformers · Docker · Vercel</div>
-        </div>
-        <div class="work-video">
-          <video
-            src="./job-matcher-demo.mp4"
-            poster="./job-matcher-poster.jpg"
-            controls
-            preload="metadata"
-            playsinline
-            aria-label="AI Job Matcher demo video"
-          ></video>
-        </div>
+    <article class="work-item work-item--has-video">
+      <div class="work-video reveal reveal--from-left">
+        <video
+          src="./job-matcher-demo.mp4"
+          poster="./job-matcher-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-label="AI Job Matcher demo video"
+        ></video>
       </div>
-      <div class="work-links">
-        <a href="https://ai-job-matcher-chi.vercel.app" target="_blank" rel="noopener">Live demo <span class="dash"></span></a>
-        <a href="https://github.com/ashkan3171/ai-job-matcher" target="_blank" rel="noopener">GitHub <span class="dash"></span></a>
+      <div class="work-content-block reveal reveal--from-right">
+        <div class="work-num-inline">02 /</div>
+        <h3>AI Job Matcher</h3>
+        <p class="work-desc">
+          CV-to-JD semantic matching platform using GPT-4o-mini for skill extraction and
+          sentence-transformers for similarity scoring. Fuzzy matching with 80+ skill
+          synonym mappings. Deployed full-stack on Railway and Vercel with a live demo.
+        </p>
+        <div class="work-metrics">
+          <span class="metric"><strong>83%</strong> match accuracy</span>
+          <span class="metric"><strong>80+</strong> skill synonyms</span>
+          <span class="metric">Live demo</span>
+        </div>
+        <div class="work-stack">FastAPI · OpenAI · sentence-transformers · Docker · Vercel</div>
+        <div class="work-links">
+          <a href="https://ai-job-matcher-chi.vercel.app" target="_blank" rel="noopener">Live demo <span class="dash"></span></a>
+          <a href="https://github.com/ashkan3171/ai-job-matcher" target="_blank" rel="noopener">GitHub <span class="dash"></span></a>
+        </div>
       </div>
     </article>
 
@@ -1350,38 +1390,36 @@
       </div>
     </article>
 
-    <article class="work-item work-item--has-video work-item--video-portrait reveal">
-      <div class="work-num">04 /</div>
-      <div class="work-body">
-        <div class="work-content">
-          <h3>Async Telegram Music Bot</h3>
-          <p class="work-desc">
-            An async Python bot that delivers music on demand to 1,000+ Telegram users.
-            A user sends a track query, the bot fetches the audio from the upstream source
-            and returns the file. The engineering centre is an SQLite-backed cache layer:
-            repeated queries skip the external API entirely, cutting calls by 60%.
-            Concurrent request handling through asyncio with connection pooling and
-            graceful rate-limit handling. FastAPI management layer, fully Dockerized.
-          </p>
-          <div class="work-metrics">
-            <span class="metric"><strong>1,000+</strong> users</span>
-            <span class="metric"><strong>60%</strong> fewer API calls</span>
-          </div>
-          <div class="work-stack">Python · asyncio · FastAPI · SQLite · Docker</div>
-        </div>
-        <div class="work-video">
-          <video
-            src="./music-bot-demo.mp4"
-            poster="./music-bot-poster.jpg"
-            controls
-            preload="metadata"
-            playsinline
-            aria-label="Telegram Music Bot demo video"
-          ></video>
-        </div>
+    <article class="work-item work-item--has-video">
+      <div class="work-video reveal reveal--from-left">
+        <video
+          src="./music-bot-demo.mp4"
+          poster="./music-bot-poster.jpg"
+          controls
+          preload="metadata"
+          playsinline
+          aria-label="Telegram Music Bot demo video"
+        ></video>
       </div>
-      <div class="work-links">
-        <a href="https://github.com/ashkan3171/Telegram-music-bot" target="_blank" rel="noopener">GitHub <span class="dash"></span></a>
+      <div class="work-content-block reveal reveal--from-right">
+        <div class="work-num-inline">04 /</div>
+        <h3>Async Telegram Music Bot</h3>
+        <p class="work-desc">
+          An async Python bot that delivers music on demand to 1,000+ Telegram users.
+          A user sends a track query, the bot fetches the audio from the upstream source
+          and returns the file. The engineering centre is an SQLite-backed cache layer:
+          repeated queries skip the external API entirely, cutting calls by 60%.
+          Concurrent request handling through asyncio with connection pooling and
+          graceful rate-limit handling. FastAPI management layer, fully Dockerized.
+        </p>
+        <div class="work-metrics">
+          <span class="metric"><strong>1,000+</strong> users</span>
+          <span class="metric"><strong>60%</strong> fewer API calls</span>
+        </div>
+        <div class="work-stack">Python · asyncio · FastAPI · SQLite · Docker</div>
+        <div class="work-links">
+          <a href="https://github.com/ashkan3171/Telegram-music-bot" target="_blank" rel="noopener">GitHub <span class="dash"></span></a>
+        </div>
       </div>
     </article>
 
