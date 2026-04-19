@@ -151,25 +151,27 @@
 
   /* =========== HERO =========== */
   .hero {
-    min-height: 100vh;
+    min-height: 88vh;
     width: 100%;
     position: relative;
     z-index: 2;
     padding: 0;
   }
   .hero-layout {
-    min-height: 100vh;
+    min-height: 88vh;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: stretch;
-    gap: 0;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 48px;
+    padding-right: var(--pad);
   }
   .hero-text {
-    padding: 120px 60px 80px var(--pad);
+    padding: 100px 0 60px var(--pad);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 22px;
+    gap: 20px;
+    max-width: 720px;
     animation: heroTextFade 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
   }
   @keyframes heroTextFade {
@@ -195,7 +197,7 @@
 
   .hero-name {
     font-family: var(--font-sans);
-    font-size: clamp(48px, 7.2vw, 108px);
+    font-size: clamp(44px, 6vw, 92px);
     font-weight: 700;
     line-height: 0.95;
     letter-spacing: -0.035em;
@@ -206,7 +208,7 @@
 
   .hero-role {
     font-family: var(--font-sans);
-    font-size: clamp(20px, 2.4vw, 30px);
+    font-size: clamp(18px, 2.1vw, 26px);
     font-weight: 500;
     color: var(--text);
     display: flex;
@@ -290,17 +292,19 @@
 
   .hero-photo {
     position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    max-height: 100vh;
+    width: clamp(260px, 24vw, 360px);
+    aspect-ratio: 3 / 4;
+    max-height: 72vh;
     overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(255, 255, 255, 0.04);
   }
   .hero-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 25%;
+    object-position: center 20%;
     filter: saturate(0.95);
     display: block;
     opacity: 0;
@@ -310,21 +314,12 @@
   @keyframes heroPhotoReveal {
     to { opacity: 1; transform: scale(1); }
   }
-  .hero-photo::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 22%;
-    background: linear-gradient(to right, var(--bg), transparent);
-    pointer-events: none;
-    z-index: 2;
-  }
   .hero-photo::after {
     content: '';
     position: absolute;
     left: 0; right: 0; bottom: 0;
-    height: 28%;
-    background: linear-gradient(to top, var(--bg), transparent);
+    height: 20%;
+    background: linear-gradient(to top, rgba(10, 11, 13, 0.65), transparent);
     pointer-events: none;
     z-index: 2;
   }
@@ -333,23 +328,29 @@
     .hero-layout {
       grid-template-columns: 1fr;
       min-height: auto;
-      gap: 0;
+      gap: 32px;
+      padding-right: 0;
+      padding-top: 100px;
+      padding-bottom: 40px;
     }
     .hero-text {
-      padding: 40px var(--pad) 60px;
+      padding: 0 var(--pad);
       order: 2;
+      max-width: 100%;
     }
     .hero-photo {
-      height: 55vh;
+      width: 160px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      margin: 0 var(--pad);
       order: 1;
-      max-height: 520px;
-      margin-top: 80px;
+      max-height: none;
     }
     .hero-photo::after {
-      height: 40%;
+      display: none;
     }
     .hero-name {
-      font-size: clamp(48px, 13vw, 80px);
+      font-size: clamp(44px, 12vw, 76px);
     }
   }
 
