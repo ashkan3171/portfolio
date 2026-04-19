@@ -509,20 +509,15 @@
     border-bottom: 1px solid var(--border);
     padding: 40px 0;
     display: grid;
-    grid-template-columns: 60px 1fr auto;
-    gap: 32px;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
     align-items: start;
     transition: padding 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     cursor: default;
   }
   .work-item:hover { padding-left: 16px; }
-  .work-num {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-mute);
-    padding-top: 14px;
-  }
-  .work-body h3 {
+  .work-body h3,
+  .work-content-block h3 {
     font-family: var(--font-display);
     font-size: clamp(28px, 4vw, 44px);
     font-weight: 400;
@@ -531,8 +526,8 @@
     margin-bottom: 12px;
     transition: color 0.3s ease;
   }
-  .work-item:hover .work-body h3 { color: var(--accent-2); }
-  .work-item:hover .work-body h3 em { font-style: italic; }
+  .work-item:hover h3 { color: var(--accent-2); }
+  .work-item:hover h3 em { font-style: italic; }
 
   .work-desc {
     color: var(--text-dim);
@@ -599,20 +594,10 @@
     align-items: center;
   }
   .work-item--has-video:hover { padding-left: 0; }
-  .work-item--has-video .work-num,
-  .work-item--has-video .work-links--outer {
-    display: none;
-  }
   .work-content-block {
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-  .work-num-inline {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-mute);
-    letter-spacing: 0.06em;
   }
   .work-content-block .work-links {
     flex-direction: row;
@@ -647,7 +632,6 @@
   @media (max-width: 720px) {
     .work-item { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
     .work-item:hover { padding-left: 0; }
-    .work-num { padding-top: 0; }
     .work-links { padding-top: 0; flex-direction: row; gap: 20px; }
     .work-item--has-video {
       grid-template-columns: 1fr;
@@ -1314,7 +1298,6 @@
   <div class="work-list">
 
     <article class="work-item reveal">
-      <div class="work-num">01 /</div>
       <div class="work-body">
         <h3>Real-Time Fraud Scoring API</h3>
         <p class="work-desc">
@@ -1348,7 +1331,6 @@
         ></video>
       </div>
       <div class="work-content-block reveal reveal--from-right">
-        <div class="work-num-inline">02 /</div>
         <h3>AI Job Matcher</h3>
         <p class="work-desc">
           CV-to-JD semantic matching platform using GPT-4o-mini for skill extraction and
@@ -1369,7 +1351,6 @@
     </article>
 
     <article class="work-item reveal">
-      <div class="work-num">03 /</div>
       <div class="work-body">
         <h3>EdTech Query Optimization</h3>
         <p class="work-desc">
@@ -1402,7 +1383,6 @@
         ></video>
       </div>
       <div class="work-content-block reveal reveal--from-right">
-        <div class="work-num-inline">04 /</div>
         <h3>Async Telegram Music Bot</h3>
         <p class="work-desc">
           An async Python bot that delivers music on demand to 1,000+ Telegram users.
@@ -1457,12 +1437,13 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Scroll reveal
+  // Scroll reveal — re-triggers every time element enters viewport (scroll up or down)
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('in');
-        io.unobserve(entry.target);
+      } else {
+        entry.target.classList.remove('in');
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
